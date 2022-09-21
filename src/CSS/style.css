@@ -1,0 +1,41 @@
+*{
+    box-sizing: border-box;
+}
+
+
+img{
+    width: 450px;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: wheat;
+}
+
+
+
+
+.firstDiv{
+    width: 1200px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 50px;
+}
+.firstDiv button{
+    margin: 50px 0 0 300px;
+    background-color: green;
+    border: none;
+    width: 200px;
+    height: 60px;
+    border-radius: 10px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+.firstDiv button:hover{
+    cursor: pointer;
+    border: 5px solid rgb(103, 154, 27);
+}
