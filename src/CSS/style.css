@@ -22,7 +22,20 @@ body{
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    margin-top: 50px;
+    margin-top: 40px;
+}
+
+.firstDiv-right{
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+.firstDiv-right article{
+    font-size: 40px;
+    font-weight: bold;
+    padding-bottom: 55px;
 }
 .firstDiv button{
     margin: 50px 0 0 300px;
@@ -34,8 +47,80 @@ body{
     color: white;
     font-size: 20px;
     font-weight: bold;
+    transition: 0.2s;
+    cursor: pointer;
 }
 .firstDiv button:hover{
-    cursor: pointer;
     border: 5px solid rgb(103, 154, 27);
+}
+
+.keyboard{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center ;
+    width: 930px;
+    margin: 0 auto 50px auto;
+}
+
+.keys{
+    width: 50px;
+    height: 50px;
+    background-color: grey;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    color: rgb(40, 40, 40);
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.keys:hover{
+    background-color: rgb(107, 107, 107);
+}
+
+.inputs{
+    margin: 0 auto ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputs span{
+    font-size: 25px;
+    
+}
+
+.inputs input{
+    width: 400px;
+    height: 40px;
+    border-radius: 5px;
+    margin-inline: 55px;
+    font-size: 20px;
+
+
+}
+
+.inputs button{
+    width: 100px;
+    height: 40px;
+    font-size: 20px;
+    background-color:rgb(83, 226, 226);
+    color: rgb(25, 56, 56);
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.inputs button:hover{
+    border: 5px solid rgb(52, 144, 144);
+}
+
+.isDisable{
+    pointer-events: none;
+    opacity: 0.6;
 }
