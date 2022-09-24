@@ -2,8 +2,8 @@
 /* IMPORTS */
 
 import palavras from './Palavras';
-import forca0 from './assets/forca0.png'
 import React from 'react';
+import forca0 from './assets/forca0.png'
 import forca1 from './assets/forca1.png'
 import forca2 from './assets/forca2.png'
 import forca3 from './assets/forca3.png'
@@ -30,6 +30,8 @@ export default function App(){
     const [word, setWord] = React.useState('')
     const [wordGame, setWordGame] = React.useState([])
     let [mistakes, setMistakes] = React.useState(0)
+    const [correctTryWord, setCorrectTryWord] = React.useState('')
+    const [tryWord, setTryWord] = React.useState('')
     
     /* JSX */
 
@@ -37,7 +39,11 @@ export default function App(){
         <>
             <Hangman/>
             <Keyboard/>
-            <Inputs/>
+            <div className={classFooter}>
+                <span>Já sei a palavra!</span>
+                <input type='text' value={tryWord} onChange={e =>setTryWord(e.target.value)}></input>
+                <button onClick={checkInput}>Chutar</button>
+            </div>
         </>
     );
 
@@ -58,13 +64,17 @@ export default function App(){
     /* FUNCTION THAT START THE GAME, SET ALL THINGS TO START FROM ZERO */
     
     function startGame (){
+
         setClassCorretWrong('')
         setLettersChosen([])
         setImgForca(forca0);
         setMistakes(0)
         
         let chosenWord = palavras[Math.floor(Math.random()*palavras.length)];
+
         console.log(chosenWord)
+        
+        setCorrectTryWord(chosenWord)
     
         setWord(chosenWord.split(''));
         
@@ -82,7 +92,10 @@ export default function App(){
         setClassKeyboard('keyboard');
     }
 
+    /* FUNCTION TO ADD THE CLASS 'isDisable' */
+
     function disableDivs(){
+
         setClassFooter('inputs isDisable');
         setClassKeyboard('keyboard isDisable');
     }
@@ -92,6 +105,7 @@ export default function App(){
     function createGame (chosenWord){
 
         let wordGame  = chosenWord.map(()=>' _ ')
+
         setWordGame(wordGame);
     }
 
@@ -113,14 +127,22 @@ export default function App(){
 
     function checkLetter(letter){
 
+        const accents = ['á', 'à', 'ã' ,'â' ,'é', 'ê', 'í', 'ó', 'ô', 'õ', 'ú','ç' ]
+
+        console.log(letter)
+
         setLettersChosen([...lettersChosen, letter])
 
-        
         const newWordGame = [...wordGame]
 
         for (let i =0; i<word.length; i++){
 
-            if(word[i] === letter){
+
+            if((letter===word[i].normalize('NFD').replace(/[\u0300-\u036f]/g, "")) && accents.includes(word[i])){
+                
+                newWordGame.splice(i,1,word[i])
+
+            }else if(word[i] === letter){
 
                 newWordGame.splice(i,1,letter)
 
@@ -129,22 +151,20 @@ export default function App(){
         checkMistake(newWordGame)
         
         setWordGame(newWordGame)
-
-        
-        
     }
 
     /* FUNCTION TO CHECK IF THE ARRAYS ARE THE SAME OR NOT */
 
     function checkMistake(newWordGame){
+
         let error = mistakes
+
         if( newWordGame.toString() === wordGame.toString()){
+
             error++;
             setMistakes(error)
             changeImage(error)
-            
-            
-            
+           
         }
         finishGame(error, newWordGame)
     }   
@@ -173,9 +193,10 @@ export default function App(){
         }
     }
 
+    /* FUNCTION TO FINISH THE GAME, DISABLING THE BUTTONS AND CHANGING THE COLOR OF THE WORD */
+
     function finishGame(error, newWordGame){
-        console.log(newWordGame)
-        console.log(word)
+        
         if (error === 6){
             setClassCorretWrong('incorrect')
             disableDivs()
@@ -185,15 +206,25 @@ export default function App(){
         }
     }
     
-    /* COMPONENT CREATE AND SHOW THE FOOTER OF THE PAGE */
-    
-    function Inputs(){
-        return(
-            <div className={classFooter}>
-                <span>Já sei a palavra!</span>
-                <input type='text'></input>
-                <button>Chutar</button>
-            </div>
-        );
+    /* FUNCTION THAT CHECKS IF THE INPUT VALUE IS IQUAL TO THE WORD */
+
+    function checkInput(){
+        
+        if (tryWord !== correctTryWord){
+            setClassCorretWrong('incorrect')
+            disableDivs()
+            setWordGame(tryWord)
+            setImgForca(forca6)
+
+        }else if(tryWord === correctTryWord){
+            setClassCorretWrong('correct')
+            disableDivs()
+            setWordGame(tryWord)
+        }
+
+        setTryWord('')
     }
 }
+
+
+//Falta consfigurar para que ele possa ler palavras com acentos, fazer deploy e ...
